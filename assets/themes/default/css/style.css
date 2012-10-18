@@ -1,0 +1,85 @@
+@import 'reset.css';
+@import '960.css';
+@import url(http://fonts.googleapis.com/css?family=Carrois+Gothic);
+@import url(http://fonts.googleapis.com/css?family=Coda+Caption:800);
+
+html, body {
+    height: 100%;
+}
+
+body {
+    font: 14px 'Carrois Gothic', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #050505 url(../img/bg.jpg) repeat;;
+    color: #5B5B5B;
+}
+
+h1 {
+    font-family: 'Coda Caption', sans-serif;
+}
+
+a {
+    color: #5E5E5E;
+}
+
+a:hover {
+}
+
+h1 {
+    font-size: 2.8em;
+}
+
+h2 {
+    font-size: 2em;
+}
+
+h3 {
+    font-size: 1.6em;
+}
+
+hr {
+    height: 5px;
+    margin: 15px 0;
+    background: #000;
+}
+
+#page_wrapper {
+    width: 960px;
+    margin: 0 auto;
+}
+
+header {
+    margin: 0px auto;
+    width: 960px;
+    height: 240px;
+    background: url(../img/pageflip.png) no-repeat left bottom;
+}
+
+header h1 {
+    margin-top: 30px;
+}
+
+#footballplayer {
+    height: 200px;
+    background: url(../img/footballplayer.png) no-repeat right bottom;
+}
+
+.client_list {
+
+}
+
+.client_list ul {
+    padding: 10px;
+    border-left: 1px solid #000;
+    margin-bottom: 20px;
+}
+
+.client_list li {
+    padding: 3px;
+}
+
+#video_wrapper {
+    width: 600px;
+    margin: 0 auto;
+}
