@@ -15,11 +15,11 @@ class Model
      */
     public function user_info($rep = false)
     {
-        $reps = array('sam' => array('name' =>'Samuel Hilson',
-                                     'passwd' => 'dfccc06f14414bff5a59be7fc90abf4404b47fc8',
+        $reps = array('admin' => array('name' =>'Samuel Hilson',
+                                     'passwd' => '89e495e7941cf9e40e6980d14a16bf023ccd4c91',
                                      'group' => 'admin' ),
-                      'salesguy' => array('name' => 'Super Sales Guy',
-                                          'passwd' => '59248c4dae276a021cb296d2ee0e6a0c962a8d7f',
+                      'user' => array('name' => 'Super Sales Guy',
+                                          'passwd' => '89e495e7941cf9e40e6980d14a16bf023ccd4c91',
                                           'group' => 'sales')
         );
         if ($rep)

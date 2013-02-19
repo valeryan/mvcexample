@@ -39,7 +39,7 @@ class Load
                 }
                 else
                 {
-                    $this->css .= '<link href="'. BASE_URI .'/assets/themes/'. $this->theme .'/css/' .$css. '" rel="stylesheet" /> ';
+                    $this->css .= '<link href="'. Config::read('base_uri') .'/assets/themes/'. $this->theme .'/css/' .$css. '" rel="stylesheet" /> ';
                 }
             }
         }
@@ -51,7 +51,7 @@ class Load
             }
             else
             {
-                $this->css .= '<link href="'. BASE_URI .'/assets/themes/'. $this->theme .'/css/' .$data. '" rel="stylesheet" /> ';
+                $this->css .= '<link href="'. Config::read('base_uri') .'/assets/themes/'. $this->theme .'/css/' .$data. '" rel="stylesheet" /> ';
             }
 
         }
@@ -74,7 +74,7 @@ class Load
                 }
                 else
                 {
-                    $this->js .= '<script type="text/javascript" src="'. BASE_URI .'/assets/js/' .$data. '" ></script> ';
+                    $this->js .= '<script type="text/javascript" src="'. Config::read('base_uri') .'/assets/js/' .$data. '" ></script> ';
                 }
             }
         }
@@ -86,7 +86,7 @@ class Load
             }
             else
             {
-                $this->js .= '<script type="text/javascript" src="'. BASE_URI .'/assets/js/' .$data. '" ></script> ';
+                $this->js .= '<script type="text/javascript" src="'. Config::read('base_uri') .'/assets/js/' .$data. '" ></script> ';
             }
 
         }

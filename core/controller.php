@@ -56,7 +56,7 @@ class Controller
     /**
      * login method help validate credentials
      *
-     * @param $method page we are trying to login to.
+     * @param string $method page we are trying to login to.
      */
     function login($method)
     {
@@ -92,11 +92,11 @@ class Controller
                         // yeah we are all good lets check our group and send them on the way.
                         if ($user_exist['group'] == 'admin')
                         {
-                            header('Location: ' . BASE_URI  );
+                            header('Location: ' . Config::read('base_uri')  );
                         }
                         else
                         {
-                            header('Location: ' . BASE_URI . '/rep/' . $user );
+                            header('Location: ' . Config::read('base_uri') . '/rep/' . $user );
                         }
 
                     }
@@ -123,7 +123,7 @@ class Controller
     function logout()
     {
         session_destroy();
-        header('Location: ' . BASE_URI . '/index');
+        header('Location: ' . Config::read('base_uri') . '/index');
     }
 
     /**
@@ -139,7 +139,7 @@ class Controller
 
     /**
      * show list of clients for a sales rep.
-     * @param sting|bool $rep sales rep that logged in.
+     * @param string|bool $rep sales rep that logged in.
      */
     function rep($rep = false)
     {

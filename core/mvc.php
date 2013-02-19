@@ -29,5 +29,5 @@ require 'load.php';
 require 'model.php';
 // call the main controller
 require 'controller.php';
-new Controller($method, $data, THEME);
+new Controller($method, $data, Config::read('theme'));
 // end mvc.php
