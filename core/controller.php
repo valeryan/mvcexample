@@ -7,25 +7,39 @@
 class Controller
 {
 
-    public $load;
-    public $model;
     public $url_data;
     public $data;
+    private static $instance;
     // configure which methods require a password.
     // client method is unprotected so that clients can view commercials with a link.
     public $restricted = array('index', 'rep');
 
-    /**
-     * @param string $method specifies the method to be called within the controller
-     * @param null $url_data extra segments of the url that contain useful info.
-     * @param string $theme the theme that will be used to display pages.
-     */
-    function __construct($method, $url_data = null, $theme)
+
+    function __construct()
     {
+        self::$instance =& $this;
+        // ====== borrowed this from codeigniter ====== //
+        $uri = $_SERVER['REQUEST_URI'];
+        if (strpos($uri, $_SERVER['SCRIPT_NAME']) === 0)
+        {
+            $uri = substr($uri, strlen($_SERVER['SCRIPT_NAME']));
+        }
+        elseif (strpos($uri, dirname($_SERVER['SCRIPT_NAME'])) === 0)
+        {
+            $uri = substr($uri, strlen(dirname($_SERVER['SCRIPT_NAME'])));
+        }
+        // Do some final cleaning of the URI and return it
+        $uri = str_replace(array('//', '../'), '/', trim($uri, '/'));
+        // ====== borrowed this from codeigniter ====== //
+
+        // set our route and send the additional url as data array
+        $x = explode('/', $uri, 2);
+        $method = (empty($x[0]) ? 'index' : $x[0] );
+        $data = (isset($x[1]) ? explode('/', $x[1]) : null);
+
         // store extra url information for our methods.
-        $this->url_data = $url_data;
-        $this->load = New Load($theme);
-        $this->model = New Model();
+        $this->url_data = $data;
+        $this->load = New Load();
         // add default stylesheet
         $this->load->css('style.css');
         // setup our session
@@ -49,10 +63,13 @@ class Controller
         else
         {
             // we didn't find a matching method. throw out that swanky 404.
-            $this->load->view('404');
+           // $this->load->view('404');
         }
     }
-
+    public static function &get_instance()
+    {
+        return self::$instance;
+    }
     /**
      * login method help validate credentials
      *
@@ -60,6 +77,7 @@ class Controller
      */
     function login($method)
     {
+        $this->load->model('user_model');
         // see if we are already logged in.
         if ($_SESSION['login'] == true)
         {
@@ -84,7 +102,7 @@ class Controller
                     // we got credentials lets validate them.
                     $user = strtolower($_POST['user']);
                     $passwd = sha1($_POST['passwd']);
-                    $user_exist = $this->model->user_info($user);
+                    $user_exist = $this->user_model->user_info($user);
                     if ($user_exist && $passwd == $user_exist['passwd'])
                     {
                         $_SESSION['login'] = true;
@@ -92,11 +110,11 @@ class Controller
                         // yeah we are all good lets check our group and send them on the way.
                         if ($user_exist['group'] == 'admin')
                         {
-                            header('Location: ' . Config::read('base_uri')  );
+                            header('Location: ' . Config::read('site')  );
                         }
                         else
                         {
-                            header('Location: ' . Config::read('base_uri') . '/rep/' . $user );
+                            header('Location: ' . Config::read('site') . 'rep/' . $user );
                         }
 
                     }
@@ -123,70 +141,14 @@ class Controller
     function logout()
     {
         session_destroy();
-        header('Location: ' . Config::read('base_uri') . '/index');
+        header('Location: ' . Config::read('site') . '/index');
     }
 
-    /**
-     * display list of reps and commercials. Admins are sent here on login.
-     */
-    function index()
-    {
-        $data['title'] = 'Wildcat Football Commercials';
-        $data['reps'] = $this->model->user_info();
-        $data['clients'] = $this->model->clients();
-        $this->load->build('index', $data);
-    }
 
-    /**
-     * show list of clients for a sales rep.
-     * @param string|bool $rep sales rep that logged in.
-     */
-    function rep($rep = false)
-    {
-        if ($rep)
-        {
-            $rep = $this->_segment(1);
-        }
-        $data['title'] = 'Wildcat Football Commercials';
-        $data['reps'][$rep] = $this->model->user_info($rep);
-        $data['clients'] = $this->model->clients();
-        $this->load->build('index', $data);
-    }
-
-    /**
-     *  client pages will show the jw player and a playlist of videos for that client.
-     *  this link can be sent to clients for preview with out any need for logging in.
-     */
-    function client()
-    {
-        $data['title'] = 'Client Preview';
-        $data['client'] = $this->_segment(1);
-        $this->load->js('<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>');
-        $this->load->js('<script type="text/javascript">
-                            var CLIENT = "'. $data['client'] .'";
-                            var BASE_URI = "'. BASE_URI .'";
-                        </script>');
-        $this->load->js('player.js');
-
-        $this->load->build('player', $data);
-    }
-
-    /**
-     *  builds our playlist for the client page. called by javascript in the client view.
-     */
-    function playlist()
-    {
-        $data['client'] = $this->_segment(1);
-        $data['videos'] = $this->model->playlist($data['client']);
-        if ($data['videos'])
-        {
-            $this->load->view('playlist', $data);
-        }
-    }
 
     /**
      *
-     * _segment will get data from the urls querystring by the segment number
+     * _segment will get data from the urls query string by the segment number
      * for example a url of index.php/home/extra/stuff home is the method. So to get the 
      * segment after home you would call $this->_segment(1); and to get the second 
      * segment after home you would call $this->_segment(2); and so on and so forth. 

@@ -1,11 +1,8 @@
 <?php
-//Set Configuration
-define('BASE_URL', 'http://localhost');
-define("BASE_URI", '/mvcexample');
-define("THEME", 'default');
+require_once('./application/config.php');
 
 // Setup Sessions and get one started.
-session_save_path($_SERVER['DOCUMENT_ROOT'] . BASE_URI .'/tmp');
+session_save_path($_SERVER['DOCUMENT_ROOT'] . Config::read('base_uri') . '/tmp');
 session_start();
 // Start the application
-require 'application/mvc.php';
+require 'core/mvc.php';

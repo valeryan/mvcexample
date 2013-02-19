@@ -14,6 +14,6 @@
         </style>
 </head>
 <body>
-<img alt="404 Not Found" src="<?php echo BASE_URI; ?>/assets/img/404droids.jpg" />
+<img alt="404 Not Found" src="<?php echo Config::read('site'); ?>assets/img/404droids.jpg" />
 </body>
 </html>

@@ -9,18 +9,40 @@ class Load
 	public $css;
 	public $js;
 	public $theme;
+    public $site;
+    /**
+     * List of loaded models
+     *
+     * @var array
+     * @access protected
+     */
+    protected $_models			= array();
 
     /**
      * The constructor
      *
      * @access public
      * @return \Load
-     * @param string $theme the theme used by the view.
      */
-	function __construct($theme) {
-		$this->theme = $theme;
+	function __construct() {
+		$this->theme = Config::read('theme');
+        $this->site = Config::read('site');
 	}
+    public function model($name)
+    {
+        if (in_array($name, $this->_models, TRUE))
+        {
+            return;
+        }
+        $inst = & Controller::get_instance();
+        $model = strtolower($name);
+        require_once '/application/models/' . $model . '.php';
+        $model = ucfirst($model);
+        $inst->$name = new $model();
+        $this->_models[] = $name;
+        return;
 
+    }
     /**
      * This function can add css to the template. It takes multiple inputs and determines the best action to add css.
      *
@@ -39,7 +61,7 @@ class Load
                 }
                 else
                 {
-                    $this->css .= '<link href="'. Config::read('base_uri') .'/assets/themes/'. $this->theme .'/css/' .$css. '" rel="stylesheet" /> ';
+                    $this->css .= '<link href="'. $this->site .'assets/themes/'. $this->theme .'/css/' .$css. '" rel="stylesheet" /> ';
                 }
             }
         }
@@ -51,7 +73,7 @@ class Load
             }
             else
             {
-                $this->css .= '<link href="'. Config::read('base_uri') .'/assets/themes/'. $this->theme .'/css/' .$data. '" rel="stylesheet" /> ';
+                $this->css .= '<link href="'. $this->site .'assets/themes/'. $this->theme .'/css/' .$data. '" rel="stylesheet" /> ';
             }
 
         }
@@ -74,7 +96,7 @@ class Load
                 }
                 else
                 {
-                    $this->js .= '<script type="text/javascript" src="'. Config::read('base_uri') .'/assets/js/' .$data. '" ></script> ';
+                    $this->js .= '<script type="text/javascript" src="'. $this->site .'assets/js/' .$data. '" ></script> ';
                 }
             }
         }
@@ -86,7 +108,7 @@ class Load
             }
             else
             {
-                $this->js .= '<script type="text/javascript" src="'. Config::read('base_uri') .'/assets/js/' .$data. '" ></script> ';
+                $this->js .= '<script type="text/javascript" src="'. $this->site .'assets/js/' .$data. '" ></script> ';
             }
 
         }
@@ -134,7 +156,7 @@ class Load
         {
             extract($data);
         }
-        include 'views/' . $file . '.php';
+        include '/application/views/' . $file . '.php';
     }
 
     /**
@@ -158,7 +180,7 @@ class Load
 		$header_output = preg_replace('/\{(\w+)\}/e',"\$values['\\1']",$header);
         // display the parsed header, view, and footer
       	echo $header_output;
-      	include 'views/' . $file . '.php';
+      	include '/application/views/' . $file . '.php';
       	echo $footer;
 	}
 }
