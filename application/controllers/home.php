@@ -45,7 +45,7 @@ class home extends Controller {
         $this->load->js('<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>');
         $this->load->js('<script type="text/javascript">
                             var CLIENT = "'. $data['client'] .'";
-                            var BASE_URI = "'. Config::read('base_uri') .'";
+                            var BASE_URI = "/'. Config::read('base_uri') .'";
                         </script>');
         $this->load->js('player.js');
 
@@ -57,8 +57,9 @@ class home extends Controller {
      */
     function playlist()
     {
+        $this->load->model('user_model');
         $data['client'] = $this->_segment(1);
-        $data['videos'] = $this->model->playlist($data['client']);
+        $data['videos'] = $this->user_model->playlist($data['client']);
         if ($data['videos'])
         {
             $this->load->view('playlist', $data);

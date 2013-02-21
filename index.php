@@ -5,4 +5,4 @@ require_once('./application/config.php');
 session_save_path($_SERVER['DOCUMENT_ROOT'] . Config::read('base_uri') . '/tmp');
 session_start();
 // Start the application
-require 'core/mvc.php';
+require 'core/router.php';

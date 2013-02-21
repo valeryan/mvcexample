@@ -15,4 +15,4 @@ require 'controller.php';
 $controller = Config::read('base_controller');
 require '/application/controllers/' . $controller . '.php';
 new $controller();
-// end mvc.php
+// end router.php

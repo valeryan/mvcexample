@@ -47,13 +47,13 @@ class User_Model extends Model
     public function clients($rep = false)
     {
         $clients = array(
-            'salesguy' => array(
+            'user' => array(
                 'kix' => 'KIX 103',
                 'fak1' => 'Fake Entry',
                 'fak2' => 'Sample Text',
                 'fak3' => 'Test Data'
             ),
-            'sam' => array(
+            'admin' => array(
                 'kix' => 'KIX 103',
                 'fak1' => 'Fake Entry',
                 'fak2' => 'Sample Text',
