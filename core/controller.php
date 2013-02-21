@@ -81,7 +81,7 @@ class Controller
         // see if we are already logged in.
         if ($_SESSION['login'] == true)
         {
-            $this->$method($_SESSION['rep']);
+            $this->$method($_SESSION['user_id']);
         }
         else
         {
@@ -102,11 +102,11 @@ class Controller
                     // we got credentials lets validate them.
                     $user = strtolower($_POST['user']);
                     $passwd = sha1($_POST['passwd']);
-                    $user_exist = $this->user_model->user_info($user);
-                    if ($user_exist && $passwd == $user_exist['passwd'])
+                    $user_exist = $this->user_model->user_exist($user);
+                    if ($user_exist && $passwd == $user_exist['password'])
                     {
                         $_SESSION['login'] = true;
-                        $_SESSION['rep'] = $user;
+                        $_SESSION['user_id'] = $user_exist['id'];
                         // yeah we are all good lets check our group and send them on the way.
                         if ($user_exist['group'] == 'admin')
                         {
@@ -114,7 +114,7 @@ class Controller
                         }
                         else
                         {
-                            header('Location: ' . Config::read('site') . 'rep/' . $user );
+                            header('Location: ' . Config::read('site') . 'rep/' . $user_exist['id'] );
                         }
 
                     }
@@ -141,7 +141,7 @@ class Controller
     function logout()
     {
         session_destroy();
-        header('Location: ' . Config::read('site') . '/index');
+        header('Location: ' . Config::read('site') . 'index');
     }
 
 

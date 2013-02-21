@@ -9,7 +9,11 @@ class Model
 
     public function __construct()
     {
-
+        // Create (connect to) SQLite database in file
+        $this->db = new PDO('sqlite:application/mvc.s3db');
+        // Set errormode to exceptions
+        $this->db->setAttribute(PDO::ATTR_ERRMODE,
+            PDO::ERRMODE_EXCEPTION);
     }
 }
 // end model.php

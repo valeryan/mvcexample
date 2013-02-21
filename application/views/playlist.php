@@ -5,10 +5,10 @@
 		<title></title>
 		<?php foreach ($videos as $video): ?>
 		<item>
-			<title><?php echo $video['title']; ?></title>
-			<description><?php echo $video['description']; ?></description>
+			<title><?php echo $video->title; ?></title>
+			<description><?php echo $video->description; ?></description>
 			<media:group>
-                            <media:content url="/<?php echo Config::read('base_uri'); ?>assets/video/<?php echo $video['video'] . '?'. time(); ?>" />
+                            <media:content url="/<?php echo Config::read('base_uri'); ?>assets/video/<?php echo $video->file . '?'. time(); ?>" />
 				<media:thumbnail url="/<?php echo Config::read('base_uri'); ?>assets/img/wildcat-football-plate.jpg" />
 			</media:group>
 		</item>

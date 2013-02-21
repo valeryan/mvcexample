@@ -5,7 +5,7 @@ var flashvars =
 	controlbar:           'bottom',
 	stretching:			  'uniform',
 	image: 				  '',
-	file:                 BASE_URI +'playlist/'+ CLIENT,
+	file:                 BASE_URI +'playlist/'+ CLIENT_ID,
 	bufferlength:		  '15',
 	playlist:			  'bottom',
 	playlistsize:		  '200',
