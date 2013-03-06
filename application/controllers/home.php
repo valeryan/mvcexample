@@ -45,7 +45,7 @@ class home extends Controller {
         $this->load->js('<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>');
         $this->load->js('<script type="text/javascript">
                             var CLIENT_ID = "'. $data['client_id'] .'";
-                            var BASE_URI = "/'. Config::read('base_uri') .'";
+                            var BASE_URI = "'. Config::read('site') .'";
                         </script>');
         $this->load->js('player.js');
 

@@ -8,8 +8,8 @@
 			<title><?php echo $video->title; ?></title>
 			<description><?php echo $video->description; ?></description>
 			<media:group>
-                            <media:content url="/<?php echo Config::read('base_uri'); ?>assets/video/<?php echo $video->file . '?'. time(); ?>" />
-				<media:thumbnail url="/<?php echo Config::read('base_uri'); ?>assets/img/wildcat-football-plate.jpg" />
+                            <media:content url="<?php echo Config::read('site'); ?>video/<?php echo $video->file . '?'. time(); ?>" />
+				<media:thumbnail url="<?php echo Config::read('site'); ?>img/wildcat-football-plate.jpg" />
 			</media:group>
 		</item>
 		<?php endforeach; ?>

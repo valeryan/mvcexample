@@ -18,7 +18,7 @@ class User_Model extends Model
         }catch(PDOException $e) {
             // Print PDOException message
             echo $e->getMessage();
-            die();
+            die('<br /> user_exist');
         }
         return $row;
     }

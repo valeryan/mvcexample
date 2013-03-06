@@ -13,6 +13,6 @@ require 'controller.php';
 // call the main controller
 // new Controller($method, $data);
 $controller = Config::read('base_controller');
-require '/application/controllers/' . $controller . '.php';
+require Config::read('app_dir') . '/controllers/' . $controller . '.php';
 new $controller();
 // end router.php
