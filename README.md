@@ -7,10 +7,12 @@ I continue to enhance it just for my own learning experience. This is not a proj
 
 If you want to play with it you need sqlite and pdo driver for php. 
 
-Administrator
+    Administrator
+
 username: admin
 password: demo
 
-User
+    User
+
 username: user
 password: demo
