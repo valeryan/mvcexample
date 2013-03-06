@@ -8,11 +8,11 @@ I continue to enhance it just for my own learning experience. This is not a proj
 If you want to play with it you need sqlite and pdo driver for php. 
 
     Administrator
-
-username: admin
-password: demo
+    -------------
+    username: admin
+    password: demo
 
     User
-
-username: user
-password: demo
+    --------------
+    username: user
+    password: demo
