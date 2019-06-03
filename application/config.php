@@ -21,10 +21,10 @@ Config::write('db.user', 'root');
 Config::write('db.password', '');
 
 //Set Site Configuration
-Config::write('base_url', 'http://mvcexample.lo');
+Config::write('base_url', '//mvcexample.app');
 Config::write('base_uri', '/');
 Config::write('site', Config::read('base_url') . Config::read('base_uri'));
-Config::write('app_dir', '../application'); // releative to public
+Config::write('app_dir', '../application'); // relative to public
 Config::write('theme', 'default');
 Config::write('base_controller', 'home');
 // end of file Config.php

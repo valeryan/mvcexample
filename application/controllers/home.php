@@ -1,10 +1,11 @@
 <?php
 
-class home extends Controller {
-   public function __construct()
-   {
-       parent::__construct();
-   }
+class home extends Controller
+{
+    public function __construct()
+    {
+        parent::__construct();
+    }
     /**
      * display list of reps and commercials. Admins are sent here on login.
      */
@@ -24,8 +25,7 @@ class home extends Controller {
     function rep($id)
     {
         $this->load->model('user_model');
-        if (!$id)
-        {
+        if (!$id) {
             $id = $this->_segment(1);
         }
         $data['title'] = 'Wildcat Football Commercials';
@@ -60,8 +60,7 @@ class home extends Controller {
         $this->load->model('user_model');
         $data['client_id'] = $this->_segment(1);
         $data['videos'] = $this->user_model->playlist($data['client_id']);
-        if ($data['videos'])
-        {
+        if ($data['videos']) {
             $this->load->view('playlist', $data);
         }
     }

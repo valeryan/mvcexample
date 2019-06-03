@@ -5,7 +5,8 @@
  *
  * @author Samuel Hilson
  */
-class Load {
+class Load
+{
 
     public $css;
     public $js;
@@ -34,12 +35,12 @@ class Load {
 
     public function model($name)
     {
-        if (in_array($name, $this->_models, TRUE)) {
+        if (in_array($name, $this->_models, true)) {
             return;
         }
         $inst = & Controller::get_instance();
         $model = strtolower($name);
-        require_once (Config::read('app_dir') . '/models/' . $model . '.php');
+        require_once(Config::read('app_dir') . '/models/' . $model . '.php');
         $ucfModel = ucfirst($model);
         $inst->$name = new $ucfModel();
         $this->_models[] = $name;
@@ -55,8 +56,7 @@ class Load {
     function css($data)
     {
         if (is_array($data)) {
-            foreach ($data as $css)
-            {
+            foreach ($data as $css) {
                 if ($this->_check_type($css, 'css')) {
                     $this->css .= $css;
                 } else {
@@ -81,8 +81,7 @@ class Load {
     function js($data)
     {
         if (is_array($data)) {
-            foreach ($data as $js)
-            {
+            foreach ($data as $js) {
                 if ($this->_check_type($js, 'js')) {
                     $this->js .= $js;
                 } else {
@@ -107,8 +106,7 @@ class Load {
      */
     function _check_type($data, $func)
     {
-        switch ($func)
-        {
+        switch ($func) {
             case 'js':
                 $pattern = '/<script/';
                 break;
@@ -156,13 +154,18 @@ class Load {
         $footer = file_get_contents('./themes/' . $this->theme . '/footer.php', FILE_USE_INCLUDE_PATH);
         // configure our values and then replace keys in our template with them.
         $values = array('TITLE' => $data['title'], 'CSS' => $this->css, 'JS' => $this->js);
-        $header_output = preg_replace('/\{(\w+)\}/e', "\$values['\\1']", $header);
+        $header_output = preg_replace_callback(
+            '/\{(\w+)\}/',
+            function ($matches) use ($values) {
+                return $values[$matches[1]];
+            },
+            $header
+        );
         // display the parsed header, view, and footer
         echo $header_output;
         include Config::read('app_dir') . '/views/' . $file . '.php';
         echo $footer;
     }
-
 }
 
 // end load.php

@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<ruleset name="Laravel Standards">
+    <description>The Laravel Coding Standards</description>
+    <file>application</file>
+    <file>core</file>
+    <file>public</file>
+    <rule ref="PSR2"/>
+</ruleset>

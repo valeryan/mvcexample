@@ -5,7 +5,8 @@
  * we will use arrays to fake a database so that the app can be ran from anywhere.
  * all actual data was removed and examples where inserted.
  */
-class Model {
+class Model
+{
 
     public function __construct()
     {
@@ -14,7 +15,4 @@ class Model {
         // Set errormode to exceptions
         $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
-
 }
-
-// end model.php

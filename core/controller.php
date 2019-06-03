@@ -20,12 +20,9 @@ class Controller
         self::$instance =& $this;
         // ====== borrowed this from codeigniter ====== //
         $uri = $_SERVER['REQUEST_URI'];
-        if (strpos($uri, $_SERVER['SCRIPT_NAME']) === 0)
-        {
+        if (strpos($uri, $_SERVER['SCRIPT_NAME']) === 0) {
             $uri = substr($uri, strlen($_SERVER['SCRIPT_NAME']));
-        }
-        elseif (strpos($uri, dirname($_SERVER['SCRIPT_NAME'])) === 0)
-        {
+        } elseif (strpos($uri, dirname($_SERVER['SCRIPT_NAME'])) === 0) {
             $uri = substr($uri, strlen(dirname($_SERVER['SCRIPT_NAME'])));
         }
         // Do some final cleaning of the URI and return it
@@ -39,29 +36,22 @@ class Controller
 
         // store extra url information for our methods.
         $this->url_data = $data;
-        $this->load = New Load();
+        $this->load = new Load();
         // add default stylesheet
         $this->load->css('style.css');
         // setup our session
-        if (empty($_SESSION['login']))
-        {
+        if (empty($_SESSION['login'])) {
             $_SESSION['login'] = false;
         }
-        // method routing 
-        if (method_exists($this, $method))
-        {
+        // method routing
+        if (method_exists($this, $method)) {
             // lets see if this requires a login
-            if (in_array($method, $this->restricted))
-            {
+            if (in_array($method, $this->restricted)) {
                 $this->login($method);
-            }
-            else
-            {
+            } else {
                 $this->$method();
             }
-        }
-        else
-        {
+        } else {
             // we didn't find a matching method. throw out that swanky 404.
            // $this->load->view('404');
         }
@@ -79,56 +69,40 @@ class Controller
     {
         $this->load->model('user_model');
         // see if we are already logged in.
-        if ($_SESSION['login'] == true)
-        {
+        if ($_SESSION['login'] == true) {
             $this->$method($_SESSION['user_id']);
-        }
-        else
-        {
+        } else {
             // check credentials if logging in or display the login form.
             $data['title'] = 'Login Form';
             $this->load->css('login.css');
-            if ($_POST)
-            {
-                if ($_POST['passwd'] == '' || $_POST['user'] == '')
-                {
+            if ($_POST) {
+                if ($_POST['passwd'] == '' || $_POST['user'] == '') {
                     // throw an error if login form is blank.
                     $data['error'] = 'Do not leave fields blank.';
                     $data['method'] = $method;
                     $this->load->build('login', $data);
-                }
-                else
-                {
+                } else {
                     // we got credentials lets validate them.
                     $user = strtolower($_POST['user']);
                     $passwd = sha1($_POST['passwd']);
                     $user_exist = $this->user_model->user_exist($user);
-                    if ($user_exist && $passwd == $user_exist['password'])
-                    {
+                    if ($user_exist && $passwd == $user_exist['password']) {
                         $_SESSION['login'] = true;
                         $_SESSION['user_id'] = $user_exist['id'];
                         // yeah we are all good lets check our group and send them on the way.
-                        if ($user_exist['group'] == 'admin')
-                        {
-                            header('Location: ' . Config::read('site')  );
+                        if ($user_exist['group'] == 'admin') {
+                            header('Location: ' . Config::read('site'));
+                        } else {
+                            header('Location: ' . Config::read('site') . 'rep/' . $user_exist['id']);
                         }
-                        else
-                        {
-                            header('Location: ' . Config::read('site') . 'rep/' . $user_exist['id'] );
-                        }
-
-                    }
-                    else
-                    {
+                    } else {
                         // login not good throw error.
                         $data['error'] = 'Username or password not recognized.';
                         $data['method'] = $method;
                         $this->load->build('login', $data);
                     }
                 }
-            }
-            else
-            {
+            } else {
                 $data['method'] = $method;
                 $this->load->build('login', $data);
             }
@@ -149,31 +123,24 @@ class Controller
     /**
      *
      * _segment will get data from the urls query string by the segment number
-     * for example a url of index.php/home/extra/stuff home is the method. So to get the 
-     * segment after home you would call $this->_segment(1); and to get the second 
-     * segment after home you would call $this->_segment(2); and so on and so forth. 
+     * for example a url of index.php/home/extra/stuff home is the method. So to get the
+     * segment after home you would call $this->_segment(1); and to get the second
+     * segment after home you would call $this->_segment(2); and so on and so forth.
      * Basically it makes it so that I don't have to use $this->_segment(0);
      */
     function _segment($x)
     {
 
-        if ($x > 0)
-        {
+        if ($x > 0) {
             $x--;
             $count = count($this->url_data);
-            if ($x < $count)
-            {
+            if ($x < $count) {
                 return $this->url_data[$x];
-            }
-            else
-            {
+            } else {
                 return null;
             }
-        }
-        else
-        {
+        } else {
             return null;
         }
     }
-
 }
